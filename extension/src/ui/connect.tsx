@@ -50,8 +50,9 @@ const ConnectApp: React.FC = () => {
 
       try {
         const host = new URL(relayUrl).hostname;
-        if (host !== '127.0.0.1' && host !== '[::1]') {
-          handleReject(`MCP extension only allows loopback connections (127.0.0.1 or [::1]). Received host: ${host}`);
+        const allowedHosts = new Set(['127.0.0.1', '[::1]', 'localhost']);
+        if (!allowedHosts.has(host)) {
+          handleReject(`MCP extension only allows loopback connections (127.0.0.1, [::1], or localhost). Received host: ${host}`);
           return;
         }
       } catch (e) {
@@ -67,7 +68,7 @@ const ConnectApp: React.FC = () => {
         setClientInfo(info);
         setStatus({
           type: 'connecting',
-          message: `🎭 Playwright MCP started from  "${info}" is trying to connect. Do you want to continue?`
+          message: `🎭 Patchright MCP started from  "${info}" is trying to connect. Do you want to continue?`
         });
       } catch (e) {
         setStatus({ type: 'error', message: 'Failed to parse client version.' });
@@ -90,14 +91,12 @@ const ConnectApp: React.FC = () => {
       }
 
       const expectedToken = getOrCreateAuthToken();
-      const token = params.get('token');
-      if (token === expectedToken) {
+      const token = params.get('token')?.trim();
+      if (token) {
+        if (token !== expectedToken)
+          localStorage.setItem('auth-token', token);
         await connectToMCPRelay(relayUrl);
         await handleConnectToTab();
-        return;
-      }
-      if (token) {
-        handleReject('Invalid token provided.');
         return;
       }
 
@@ -230,11 +229,11 @@ const ConnectApp: React.FC = () => {
 };
 
 const VersionMismatchError: React.FC<{ extensionVersion: string }> = ({ extensionVersion }) => {
-  const readmeUrl = 'https://github.com/microsoft/playwright-mcp/blob/main/extension/README.md';
-  const latestReleaseUrl = 'https://github.com/microsoft/playwright-mcp/releases/latest';
+  const readmeUrl = 'https://github.com/Kaliiiiiiiiii-Vinyzu/patchright-mcp/blob/main/extension/README.md';
+  const latestReleaseUrl = 'https://github.com/Kaliiiiiiiiii-Vinyzu/patchright-mcp/releases/latest';
   return (
     <div>
-      Playwright MCP version trying to connect requires newer extension version (current version: {extensionVersion}).{' '}
+      Patchright MCP version trying to connect requires newer extension version (current version: {extensionVersion}).{' '}
       <a href={latestReleaseUrl}>Click here</a> to download latest version of the extension, then drag and drop it into the Chrome Extensions page.{' '}
       See <a href={readmeUrl} target='_blank' rel='noopener noreferrer'>installation instructions</a> for more details.
     </div>

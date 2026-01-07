@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { defineConfig } from '@playwright/test';
+import { defineConfig } from 'patchright/test';
 
 import type { TestOptions } from './tests/fixtures';
 

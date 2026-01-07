@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-const { program } = require('playwright-core/lib/utilsBundle');
-const { decorateCommand } = require('playwright/lib/mcp/program');
+const { program } = require('patchright-core/lib/utilsBundle');
+const { decorateCommand } = require('patchright/lib/mcp/program');
 
 const packageJSON = require('./package.json');
-const p = program.version('Version ' + packageJSON.version).name('Playwright MCP');
+const p = program.version('Version ' + packageJSON.version).name('Patchright MCP');
 decorateCommand(p, packageJSON.version)
 void program.parseAsync(process.argv);

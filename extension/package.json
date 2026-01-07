@@ -1,13 +1,13 @@
 {
-  "name": "@playwright/mcp-extension",
+  "name": "patchright-mcp-extension",
   "version": "0.0.54",
-  "description": "Playwright MCP Browser Extension",
+  "description": "Patchright MCP Browser Extension",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/microsoft/playwright-mcp.git"
+    "url": "git+https://github.com/Kaliiiiiiiiii-Vinyzu/patchright-mcp.git"
   },
-  "homepage": "https://playwright.dev",
+  "homepage": "https://github.com/Kaliiiiiiiiii-Vinyzu/patchright-mcp",
   "engines": {
     "node": ">=18"
   },
@@ -18,7 +18,7 @@
   "scripts": {
     "build": "tsc --project . && tsc --project tsconfig.ui.json && vite build && vite build --config vite.sw.config.mts",
     "watch": "tsc --watch --project . & tsc --watch --project tsconfig.ui.json & vite build --watch & vite build --watch --config vite.sw.config.mts",
-    "test": "playwright test",
+    "test": "patchright test",
     "clean": "rm -rf dist"
   },
   "devDependencies": {

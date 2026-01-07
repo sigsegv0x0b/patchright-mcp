@@ -145,7 +145,7 @@ export class RelayConnection {
       };
     }
     if (!this._debuggee.tabId)
-      throw new Error('No tab is connected. Please go to the Playwright MCP extension and select the tab you want to connect to.');
+      throw new Error('No tab is connected. Please go to the Patchright MCP extension and select the tab you want to connect to.');
     if (message.method === 'forwardCDPCommand') {
       const { sessionId, method, params } = message.params;
       debugLog('CDP command:', method, params);

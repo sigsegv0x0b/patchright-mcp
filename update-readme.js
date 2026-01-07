@@ -21,7 +21,7 @@ const path = require('path')
 const { zodToJsonSchema } = require('zod-to-json-schema')
 const { execSync } = require('child_process');
 
-const { browserTools } = require('playwright/lib/mcp/browser/tools');
+const { browserTools } = require('patchright/lib/mcp/browser/tools');
 
 const capabilities = {
   'core': 'Core automation',
@@ -129,7 +129,7 @@ async function updateOptions(content) {
   const endMarker = `<!--- End of options generated section -->`;
   return updateSection(content, startMarker, endMarker, [
     '```',
-    '> npx @playwright/mcp@latest --help',
+    '> npx patchright-mcp@latest --help',
     ...lines,
     '```',
   ]);

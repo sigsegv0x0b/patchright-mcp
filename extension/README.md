@@ -1,8 +1,8 @@
-# Playwright MCP Chrome Extension
+# Patchright MCP Chrome Extension
 
 ## Introduction
 
-The Playwright MCP Chrome Extension allows you to connect to pages in your existing browser and leverage the state of your default user profile. This means the AI assistant can interact with websites where you're already logged in, using your existing cookies, sessions, and browser state, providing a seamless experience without requiring separate authentication or setup.
+The Patchright MCP Chrome Extension allows you to connect to pages in your existing browser and leverage the state of your default user profile. This means the AI assistant can interact with websites where you're already logged in, using your existing cookies, sessions, and browser state, providing a seamless experience without requiring separate authentication or setup.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ The Playwright MCP Chrome Extension allows you to connect to pages in your exist
 ### Download the Extension
 
 Download the latest Chrome extension from GitHub:
-- **Download link**: https://github.com/microsoft/playwright-mcp/releases
+- **Download link**: https://github.com/Kaliiiiiiiiii-Vinyzu/patchright-mcp/releases
 
 ### Load Chrome Extension
 
@@ -21,17 +21,17 @@ Download the latest Chrome extension from GitHub:
 2. Enable "Developer mode" (toggle in the top right corner)
 3. Click "Load unpacked" and select the extension directory
 
-### Configure Playwright MCP server
+### Configure Patchright MCP server
 
-Configure Playwright MCP server to connect to the browser using the extension by passing the `--extension` option when running the MCP server:
+Configure Patchright MCP server to connect to the browser using the extension by passing the `--extension` option when running the MCP server:
 
 ```json
 {
   "mcpServers": {
-    "playwright-extension": {
+    "patchright-extension": {
       "command": "npx",
       "args": [
-        "@playwright/mcp@latest",
+        "patchright-mcp@latest",
         "--extension"
       ]
     }
@@ -52,16 +52,16 @@ By default, you'll need to approve each connection when the MCP server tries to 
 #### Using Your Unique Authentication Token
 
 1. After installing the extension, click on the extension icon or navigate to the extension's status page
-2. Copy the `PLAYWRIGHT_MCP_EXTENSION_TOKEN` value displayed in the extension UI
+2. Copy the `PLAYWRIGHT_MCP_EXTENSION_TOKEN` value displayed in the extension UI (kept for compatibility)
 3. Add it to your MCP server configuration:
 
 ```json
 {
   "mcpServers": {
-    "playwright-extension": {
+    "patchright-extension": {
       "command": "npx",
       "args": [
-        "@playwright/mcp@latest",
+        "patchright-mcp@latest",
         "--extension"
       ],
       "env": {
@@ -73,5 +73,4 @@ By default, you'll need to approve each connection when the MCP server tries to 
 ```
 
 This token is unique to your browser profile and provides secure authentication between the MCP server and the extension. Once configured, you won't need to manually approve connections each time.
-
 

@@ -60,7 +60,7 @@ export const AuthTokenSection: React.FC<{}> = ({}) => {
         {isExampleExpanded && (
           <div className='auth-token-example-content'>
             <div className='auth-token-example-description'>
-              Add this configuration to your MCP client (e.g., VS Code) to connect to the Playwright MCP Bridge:
+              Add this configuration to your MCP client (e.g., VS Code) to connect to the Patchright MCP Bridge:
             </div>
             <div className='auth-token-example-config'>
               <code className='auth-token-example-code'>{exampleConfig(authToken)}</code>
@@ -80,9 +80,9 @@ function authTokenCode(authToken: string) {
 function exampleConfig(authToken: string) {
   return `{
   "mcpServers": {
-    "playwright": {
+    "patchright": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest", "--extension"],
+      "args": ["patchright-mcp@latest", "--extension"],
       "env": {
         "PLAYWRIGHT_MCP_EXTENSION_TOKEN":
           "${authToken}"

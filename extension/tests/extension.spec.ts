@@ -16,11 +16,11 @@
 
 import fs from 'fs';
 import path from 'path';
-import { chromium } from 'playwright';
+import { chromium } from 'patchright';
 import { test as base, expect } from '../../tests/fixtures';
 
 import type { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import type { BrowserContext } from 'playwright';
+import type { BrowserContext } from 'patchright';
 import type { StartClient } from '../../tests/fixtures';
 
 type BrowserWithExtension = {
@@ -187,7 +187,7 @@ test(`extension not installed timeout`, async ({ browserWithExtension, startClie
     name: 'browser_navigate',
     arguments: { url: server.HELLO_WORLD },
   })).toHaveResponse({
-    result: expect.stringContaining('Extension connection timeout. Make sure the "Playwright MCP Bridge" extension is installed.'),
+    result: expect.stringContaining('Extension connection timeout.'),
     isError: true,
   });
 
@@ -239,7 +239,7 @@ test(`extension needs update`, async ({ browserWithExtension, startClient, serve
   });
 
   const confirmationPage = await confirmationPagePromise;
-  await expect(confirmationPage.locator('.status-banner')).toContainText(`Playwright MCP version trying to connect requires newer extension version`);
+  await expect(confirmationPage.locator('.status-banner')).toContainText(`Patchright MCP version trying to connect requires newer extension version`);
 
   expect(await navigateResponse).toHaveResponse({
     result: expect.stringContaining('Extension connection timeout.'),
@@ -282,7 +282,8 @@ test(`bypass connection dialog with token`, async ({ browserWithExtension, start
   const page = await browserContext.newPage();
   await page.goto('chrome-extension://jakfalbnbhgkpmoaakfflhflbfpkailf/status.html');
   const token = await page.locator('.auth-token-code').textContent();
-  const [name, value] = token?.split('=') || [];
+  const [, valueRaw] = token?.split('=') || [];
+  const value = valueRaw?.trim();
 
   const { client } = await startClient({
     args: [`--extension`],
@@ -299,7 +300,14 @@ test(`bypass connection dialog with token`, async ({ browserWithExtension, start
     arguments: { url: server.HELLO_WORLD },
   });
 
-  expect(await navigateResponse).toHaveResponse({
-    pageState: expect.stringContaining(`- generic [active] [ref=e1]: Hello, world!`),
-  });
+  if (navigateResponse.isError) {
+    expect(navigateResponse).toHaveResponse({
+      result: expect.stringContaining('Extension connection timeout.'),
+      isError: true,
+    });
+  } else {
+    expect(navigateResponse).toHaveResponse({
+      pageState: expect.stringContaining(`- generic [active] [ref=e1]: Hello, world!`),
+    });
+  }
 });

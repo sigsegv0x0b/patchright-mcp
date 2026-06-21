@@ -16,6 +16,8 @@
  */
 
 require('./playwright-extra-setup');
+require('./src/override-browser-type');
+require('./src/override-mouse-tools');
 
 const { createConnection } = require('patchright/lib/mcp/index');
 module.exports = { createConnection };

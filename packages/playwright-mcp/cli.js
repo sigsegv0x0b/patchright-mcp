@@ -16,6 +16,9 @@
  */
 
 require('./playwright-extra-setup');
+require('./src/override-browser-type');
+require('./src/override-mouse-tools');
+
 
 const { program } = require('patchright-core/lib/utilsBundle');
 const { decorateCommand } = require('patchright/lib/mcp/program');

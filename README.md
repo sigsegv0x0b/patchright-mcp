@@ -1,22 +1,16 @@
 ## Patchright MCP
 
-> Note: This project is a minimal patch of the upstream playwright-mcp. It primarily swaps Playwright for Patchright and keeps the MCP API surface the same.
+A Model Context Protocol (MCP) server for browser automation using [Patchright](https://github.com/Kaliiiiiiiiii-Vinyzu/patchright) — a fork of Playwright with stealth and humanization enhancements.
 
-A Model Context Protocol (MCP) server that provides browser automation capabilities using [Patchright](https://github.com/Kaliiiiiiiiii-Vinyzu/patchright). This server enables LLMs to interact with web pages through structured accessibility snapshots, bypassing the need for screenshots or visually-tuned models.
+### Fork Enhancements
 
-### Patchright MCP vs Patchright CLI
+This fork adds three major enhancements over upstream for more natural, bot-detection-resistant browser automation:
 
-This package provides MCP interface into Patchright. If you are using a **coding agent**, you might benefit from using the [CLI+SKILLS](https://github.com/microsoft/playwright-cli) instead.
+**Stealth Integration** — Wraps the Chromium launcher with `puppeteer-extra-plugin-stealth` to evade common bot detection heuristics (webdriver flags, navigator properties, Chrome headless detection, etc.). Applied automatically — no configuration needed.
 
-- **CLI**: Modern **coding agents** increasingly favor CLI–based workflows exposed as SKILLs over MCP because CLI invocations are more token-efficient: they avoid loading large tool schemas and verbose accessibility trees into the model context, allowing agents to act through concise, purpose-built commands. This makes CLI + SKILLs better suited for high-throughput coding agents that must balance browser automation with large codebases, tests, and reasoning within limited context windows.<br>**Learn more about [Playwright CLI with SKILLS](https://github.com/microsoft/playwright-cli)**.
+**Human-like Mouse Movement** — Replaces instantaneous cursor jumps with realistic movement paths using cubic Bézier curves with randomized control points, micro-jitter, and occasional overshoot-correction. Tracks cursor position per page and simulates natural click dwell/hold times. Optionally enabled on any mouse tool (`browser_click`, `browser_hover`, `browser_mouse_move_xy`, `browser_mouse_click_xy`, `browser_mouse_drag_xy`) by passing `"human": true` in the tool parameters, or globally via the `MOUSE_HUMAN_MODE=forced` environment variable.
 
-- **MCP**: MCP remains relevant for specialized agentic loops that benefit from persistent state, rich introspection, and iterative reasoning over page structure, such as exploratory automation, self-healing tests, or long-running autonomous workflows where maintaining continuous browser context outweighs token cost concerns.
-
-### Key Features
-
-- **Fast and lightweight**. Uses Patchright's accessibility tree, not pixel-based input.
-- **LLM-friendly**. No vision models needed, operates purely on structured data.
-- **Deterministic tool application**. Avoids ambiguity common with screenshot-based approaches.
+**Human-like Typing** — Replaces instant `fill()` with per-character typing modeled on QWERTY keyboard geometry. Delays between keys are proportional to physical key distance on the layout, with Gaussian variance for natural speed fluctuations. Includes longer pauses at punctuation/sentence boundaries, faster bursts at the start of words, gradual fatigue slowdown on long inputs, and an optional typo simulation mode (`enable_errors: true`) that occasionally hits a neighboring key, backspaces, and retypes. Enabled by passing `"human": true` to `browser_type`, or globally via `BROWSER_TYPE_HUMAN=forced`.
 
 ### Requirements
 - Node.js 18 or newer
